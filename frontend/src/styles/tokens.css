@@ -1,0 +1,72 @@
+/*
+ * 医疗平台 design tokens. See DESIGN.md for the reasoning behind each choice.
+ * Wayfinding: every case status has one colour, used the same way on the case
+ * path, tags and next-step panels, like the floor lines in a hospital.
+ */
+:root {
+  --paper: #f3f4f1;
+  --surface: #ffffff;
+  --sunken: #eceeea;
+  --ink: #1c232b;
+  --ink-2: #4b5560;
+  --ink-3: #69727c;
+  --line: #dde0db;
+  --line-strong: #c4c9c3;
+
+  --accent: #24439a;
+  --accent-strong: #1a3278;
+  --accent-wash: #e9edf8;
+
+  --pending: #8a6514;
+  --pending-wash: #f6eedb;
+  --processing: #24439a;
+  --processing-wash: #e9edf8;
+  --awaiting: #7a3d9e;
+  --awaiting-wash: #f3eaf8;
+  --completed: #2b7149;
+  --completed-wash: #e2f0e7;
+  --closed: #646b73;
+  --closed-wash: #eceeef;
+
+  --danger: #b3261e;
+  --danger-wash: #fbe9e7;
+  --warning: #a2550a;
+  --warning-wash: #fcefdf;
+  --seal: #b3261e;
+
+  --font-ui: "PingFang SC", "HarmonyOS Sans SC", "MiSans", "Hiragino Sans GB", "Microsoft YaHei UI",
+    "Microsoft YaHei", "Noto Sans CJK SC", "Noto Sans SC", system-ui, sans-serif;
+  --font-doc: "Songti SC", "STSong", "Noto Serif CJK SC", "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-md: 15px;
+  --text-lg: 17px;
+  --text-xl: 21px;
+  --text-2xl: 26px;
+  --text-3xl: 34px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  --radius-control: 8px;
+  --radius-sheet: 4px;
+  --shadow-float: 0 12px 32px rgb(28 35 43 / 14%), 0 2px 6px rgb(28 35 43 / 8%);
+  --focus: 0 0 0 3px rgb(36 67 154 / 28%);
+  --header-height: 60px;
+  --tabbar-height: 64px;
+}
+
+@media (max-width: 720px) {
+  :root {
+    --text-2xl: 23px;
+    --text-3xl: 28px;
+  }
+}

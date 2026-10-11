@@ -1,0 +1,57 @@
+#!/bin/bash
+# 在 Ghostty 新窗口中运行医疗平台的一键脚本，脚本名写在 Info.plist 的 MTScript 中。
+# 优先用 Ghostty 1.3+ 的 AppleScript 新开窗口（首次会请求“自动化”权限）；
+# 不支持或未授权时让 Ghostty 直接打开脚本（Ghostty 会请你确认运行）；没有安装 Ghostty 时退回系统“终端”。
+
+APP=$(cd "$(dirname "$0")/../.." && pwd -P)
+ROOT=$(dirname "${APP}")
+NAME=$(/usr/libexec/PlistBuddy -c 'Print :MTScript' "${APP}/Contents/Info.plist")
+SCRIPT="${ROOT}/scripts/${NAME}"
+mkdir -p "${ROOT}/.local"
+exec 2>>"${ROOT}/.local/launcher.log"
+echo "$(date '+%F %T') ${NAME}" >&2
+
+alert() {
+  osascript - "$1" "$2" >/dev/null <<'AS'
+on run argv
+	display alert (item 1 of argv) message (item 2 of argv) as critical
+end run
+AS
+}
+
+ghostty_running() {
+  [ "$(osascript -e 'application "Ghostty" is running')" = true ]
+}
+
+# 新窗口里先启动登录 shell，再由它执行脚本：和“终端”打开 .command 一样会加载 ~/.zshrc 中的 PATH
+open_ghostty_window() {
+  osascript - "${ROOT}" "${SCRIPT}" >/dev/null <<'AS'
+on run argv
+	set projectDir to item 1 of argv
+	set scriptPath to item 2 of argv
+	tell application "Ghostty"
+		set cfg to new surface configuration
+		set initial working directory of cfg to projectDir
+		set initial input of cfg to " clear; exec /bin/bash " & quoted form of scriptPath & linefeed
+		new window with configuration cfg
+		activate
+	end tell
+end run
+AS
+}
+
+if [ ! -f "${SCRIPT}" ]; then
+  alert "找不到 scripts/${NAME}" "请把“$(basename "${APP}" .app)”放在医疗平台项目的根目录中再打开。"
+  exit 1
+fi
+
+if open -Ra Ghostty 2>/dev/null; then
+  if ! ghostty_running; then
+    # Ghostty 没在运行时，先不带初始窗口启动，避免多出一个空白窗口
+    open -g -a Ghostty --args --initial-window=false
+    for _ in $(seq 1 50); do ghostty_running && break; sleep 0.1; done
+  fi
+  open_ghostty_window && exit 0
+  open -a Ghostty "${SCRIPT}" && exit 0
+fi
+open -a Terminal "${SCRIPT}"

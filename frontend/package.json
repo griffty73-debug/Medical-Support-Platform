@@ -1,0 +1,20 @@
+{
+  "name": "medical-platform",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev:patient": "vite --host 127.0.0.1 --port 5173 --strictPort",
+    "dev:doctor": "vite --host 127.0.0.1 --port 5174 --strictPort --mode doctor",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "vue": "^3.5.22",
+    "lucide-vue-next": "^0.468.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.1",
+    "vite": "^7.1.9",
+    "@playwright/test": "^1.56.0"
+  }
+}
